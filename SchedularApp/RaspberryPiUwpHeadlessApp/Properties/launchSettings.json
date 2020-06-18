@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DeviceStreamSample": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "IOTHUB_DEVICE_CONN_STRING": "HostName=amogha.azure-devices.net;DeviceId=vinzy;SharedAccessKey=Mr9z5UjcaKM1Eis7bEA+cVgYmY3AT4KqkLVBVuTckC0="
+      }
+    }
+  }
+}

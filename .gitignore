@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/SchedularApp/.vs/SchedularApp/v16
+/SchedularApp/RaspberryPiUwpHeadlessApp/bin/x86/Debug
+/SchedularApp/RaspberryPiUwpHeadlessApp/obj
+/SchedularApp/SchedularApp/bin/x86/Debug
+/SchedularApp/SchedularApp/obj
+/SchedularApp/Tasks/bin
+/SchedularApp/Tasks/obj
