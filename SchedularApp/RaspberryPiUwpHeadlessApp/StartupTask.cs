@@ -21,6 +21,7 @@ namespace RaspberryPiUwpHeadlessApp
                 }
                 taskDeferral = taskInstance.GetDeferral();
                 LocalDataStore.CreateLocalConfigurationSettings();
+                taskInstance.Canceled += new BackgroundTaskCanceledEventHandler(OnCanceled);
                 var processor = new Processor(loggingChannel);
                 processor.Process();
                 Thread.Sleep(28800000);//ToDo-Temporary provision to run this service for a specified period(8 hours)..Should add Scheduler logic.
@@ -29,5 +30,19 @@ namespace RaspberryPiUwpHeadlessApp
                 loggingChannel.LogMessage("Task completed at " + DateTime.UtcNow.ToString());
             }
         }
+
+
+
+        private void OnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            //
+            // Indicate that the background task is canceled.
+            //
+            //_cancelRequested = true;
+            //_cancelReason = reason;
+
+            Debug.WriteLine("Background " + sender.Task.Name + " Cancel Requested...");
+        }
+
     }
 }

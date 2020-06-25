@@ -46,10 +46,10 @@ namespace SchedularApp
     class BackgroundTaskSample
     {
         public const string SampleBackgroundTaskEntryPoint = "RaspberryPiUwpHeadlessApp.StartupTask";
-        public const string SampleBackgroundTaskName = "SampleBackgroundTask";
+        public const string SampleBackgroundTaskName = "StartupTask";
         public static string SampleBackgroundTaskProgress = "";
         public static bool SampleBackgroundTaskRegistered = false;
-
+               
         public const string SampleBackgroundTaskWithConditionName = "SampleBackgroundTaskWithCondition";
         public static string SampleBackgroundTaskWithConditionProgress = "";
         public static bool SampleBackgroundTaskWithConditionRegistered = false;
@@ -89,24 +89,13 @@ namespace SchedularApp
                 // If the user denies access, the task will not run.
                 var requestTask = BackgroundExecutionManager.RequestAccessAsync();
             }
-            //Check if task still running 
-            foreach (var cur in BackgroundTaskRegistration.AllTasks)
-            {
-                if (cur.Value.Name == name)
-                {
-                    // cur.Value.Unregister(true);
-                    BackgroundTaskRegistration task1 = (BackgroundTaskRegistration)BackgroundTaskRegistration.AllTasks[cur.Value.TaskId];
-                    return task1;
-                }
-            }
-
 
             var builder = new BackgroundTaskBuilder();
 
             builder.Name = name;
             builder.TaskEntryPoint = taskEntryPoint;
-            //builder.SetTrigger(trigger);
             builder.SetTrigger(trigger);
+
             if (condition != null)
             {
                 builder.AddCondition(condition);
@@ -122,7 +111,6 @@ namespace SchedularApp
             {
                 builder.TaskGroup = group;
             }
-
 
             BackgroundTaskRegistration task = builder.Register();
 

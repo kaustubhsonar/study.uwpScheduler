@@ -22,6 +22,7 @@ using System.Runtime.Serialization.Json;
 using Windows.Data.Json;
 using System;
 using Windows.ApplicationModel.Background;
+using NuGet.Configuration;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -32,7 +33,7 @@ namespace SchedularApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public System.TimeSpan SchedularTime;
+
 
         ApplicationTrigger trigger = null;
 
@@ -41,19 +42,50 @@ namespace SchedularApp
             this.InitializeComponent();
             //ReadConfiguration().GetAwaiter();
             //DispatcherTimerSetup();
-            // RegisterBackgroundTask();
+            //RegisterBackgroundTask();
             trigger = new ApplicationTrigger();
+            //uwpScheduler uwp = new uwpScheduler();
+            initializeSettings();
+            LocalDataStore.CreateLocalConfigurationSettings();
         }
 
-        private void RegisterBackgroundTask(object sender, RoutedEventArgs e)
+        public async void initializeSettings()
         {
+            await SettingsService.InitializeSettings();                        
+        }
+
+
+        public async void getSettings()
+        {
+            await SettingsService.InitializeSettings();
+
+            LocalSettings settings1 = await SettingsService.LoadSettings();
+            settings1.SchedulerStartTime = "12:00:00";
+            await SettingsService.SaveSettings(settings1);
+        }
+
+        private async void RegisterBackgroundTask(object sender, RoutedEventArgs e)
+        {
+            TimeSpan test = LocalDataStore.SchedulerStartTime;
+            LocalSettings SchedulerSettings = await SettingsService.LoadSettings();
+            SchedulerSettings.SchedulerStartTime = "10:10:10";
+            await SettingsService.SaveSettings(SchedulerSettings);
+            ApplicationDataContainer localSettingsUpdate;
+            localSettingsUpdate = ApplicationData.Current.LocalSettings;
+            TimeSpan NewStartTime = new TimeSpan(00, 00, 00);
+            TimeSpan.TryParse(SchedulerSettings.SchedulerStartTime, out NewStartTime);
+            localSettingsUpdate.Values["SchedulerStartTime"] = NewStartTime;
+            TimeSpan test1 = LocalDataStore.SchedulerStartTime;
+            //localSettingsUpdate.Values["SchedulerEndTime"] = SchedularStopTime;
+
             //trigger = new ApplicationTrigger();
-            var task = BackgroundTaskSample.RegisterBackgroundTask(BackgroundTaskSample.SampleBackgroundTaskEntryPoint,
-                                                                   BackgroundTaskSample.ApplicationTriggerTaskName,
-                                                                   trigger,
-                                                                   null);
-            AttachProgressAndCompletedHandlers(task);
-            // UpdateUI();
+            //var task = BackgroundTaskSample.RegisterBackgroundTask(BackgroundTaskSample.SampleBackgroundTaskEntryPoint,
+            //                                                       BackgroundTaskSample.ApplicationTriggerTaskName,
+            //                                                       trigger,
+            //                                                       null);
+
+            //SignalBackgroundTask(null, null);
+
         }
 
         /// <summary>
@@ -118,6 +150,8 @@ namespace SchedularApp
 
 
         #region schedulerCode
+
+        public System.TimeSpan SchedularTime;
         public async Task ReadConfiguration()
         {
             try

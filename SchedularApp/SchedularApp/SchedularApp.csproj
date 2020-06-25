@@ -118,6 +118,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Data\LocalDataStore.cs" />
+    <Compile Include="LocalDataStore.cs" />
+    <Compile Include="SettingsService.cs" />
+    <Compile Include="uwpScheduler.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -153,9 +157,15 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
     </PackageReference>
+    <PackageReference Include="NuGet.Configuration">
+      <Version>5.6.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="appsettings.json" />
+    <Content Include="appsettings.json" />
+    <Content Include="Assets\localSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RaspberryPiUwpHeadlessApp\RaspberryPiUwpHeadlessApp.csproj">
